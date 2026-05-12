@@ -11,3 +11,11 @@
     - guest kedua: passwordnya 
     - localhost: RabbitMQnya lokal dan bukan di server lain
     - 5672: port yang dipakai RabbitMQ untuk menerima koneksi AMQP
+
+## Simulating Slow Subscriber
+- RabbitMQ Dashboard:
+    ![Simulating subscriber image](/assets/images/SimulatingSlowSubscriber.png)
+    - Explanation: 
+        - Pada percobaan ini, subscriber dibuat lebih lambat dengan menambahkan delay 1 detik untuk tiap pemrosesan message. Sementara itu, publisher tetap mengirim 5 message sekaligus setiap kali dijalankan.
+        - Terlihat di chart "Queued messages" jumlah message yang mengantri sempat mencapai sekitar 17 - 18. Hal tsb terjadi karena publisher mengirim message jauh lebih cepat daripada subscriber memprosesnya. Angka 17 - 18 ini berasal dari akumulasi beberapa kali publisher dijalankan sebelum subscriber sempat menghabiskan antriannya. Ini membuktikan bahwa message broker berfungsi sebagai buffer, message tidak hilang meskipun subscribernya lambat, tetapi tetap tersimpan di queue dan diproses secara satu per satu.
+
